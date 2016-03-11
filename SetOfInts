@@ -1,0 +1,32 @@
+class SetOfInts {
+  private TreeSet<Integer> tree = new TreeSet<Integer>();
+  private Integer m = null;
+    
+  public void insert(int val) {
+    tree.add(val);
+    updateMedian();
+  }
+    
+  public Integer getMedian() {
+    return m;
+  }
+  
+  private void updateMedian() {
+    if (tree.size() == 0) {
+      m = null;
+    } else if (tree.size() == 1) {
+      m = tree.first();
+    } else {
+      SortedSet<Integer> h = tree.headSet(m, true);
+      SortedSet<Integer> t = tree.tailSet(m + 1, true);
+
+      if (tree.size() % 2 == 0) {
+        m = (h.last() + t.first()) / 2;
+      } else if (h.size() < t.size()) {
+        m = t.first();
+      } else {
+        m = h.last();
+      }
+    }
+  }
+}
